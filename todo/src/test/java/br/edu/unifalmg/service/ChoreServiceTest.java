@@ -327,6 +327,18 @@ public class ChoreServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("#editChore > Chore exist > When the edited chore leads to an existing chore > Throw an exception")
+    void editChoreDuplicateChoreThrowsException(){
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        service.getChores().add(new Chore("Chore #02", Boolean.FALSE, LocalDate.now().plusDays(1)));
+        Chore chore = service.getChores().get(0);
+        assertThrows(DuplicatedChoreException.class, () -> service.editChore(chore,
+                "Chore #02", chore.getDeadline().plusDays(1)));
+    }
+
+
 
 
 }
