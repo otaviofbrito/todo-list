@@ -163,6 +163,10 @@ public class ChoreService {
         );
     }
 
+    public Chore editChore(Chore chore, String newDescription, LocalDate newDate){
+        return null;
+    }
+
     private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();
 
 }
