@@ -290,6 +290,28 @@ public class ChoreServiceTest {
 
     }
 
+    @Test
+    @DisplayName("#editChore > Chore exists >When the description is invalid > throw an exception")
+    void editChoreInvalidDescriptionThrowsException(){
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        Chore chore = service.getChores().get(0);
+        assertAll(
+                () -> assertThrows(InvalidDescriptionException.class,
+                        () -> service.editChore(chore, null, null)),
+                () -> assertThrows(InvalidDescriptionException.class,
+                        () -> service.editChore(chore, "", null)),
+                () -> assertThrows(InvalidDescriptionException.class,
+                        () -> service.editChore(chore, null, LocalDate.now().plusDays(1))),
+                () -> assertThrows(InvalidDescriptionException.class,
+                        () -> service.editChore(chore, "", LocalDate.now().plusDays(1))),
+                () -> assertThrows(InvalidDescriptionException.class,
+                        () -> service.editChore(chore, null, LocalDate.now().minusDays(1))),
+                () -> assertThrows(InvalidDescriptionException.class,
+                        () -> service.editChore(chore, "", LocalDate.now().minusDays(1)))
+        );
+    }
+
 
 
 }
