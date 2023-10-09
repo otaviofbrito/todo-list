@@ -323,7 +323,7 @@ public class ChoreServiceTest {
                         () -> service.editChore(chore, "Desc", null)),
                 () ->  assertThrows(InvalidDeadlineException.class,
                         () -> service.editChore(chore, "Desc",
-                                chore.getDeadline().minusDays(1)))
+                                LocalDate.now().minusDays(1)))
         );
     }
 
@@ -344,11 +344,11 @@ public class ChoreServiceTest {
         ChoreService service = new ChoreService();
         service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
         Chore chore = service.getChores().get(0);
-        Chore response = service.editChore(chore, "Chore edited", LocalDate.now().plusDays(1));
+        service.editChore(chore, "Chore edited", LocalDate.now().plusDays(1));
         assertAll(
-                ()-> assertEquals(chore.getDescription(), response.getDescription()),
-                () -> assertEquals(chore.getDeadline(), response.getDeadline()),
-                () -> assertEquals(chore.getIsCompleted(), response.getIsCompleted())
+                ()-> assertEquals(chore.getDescription(), "Chore edited"),
+                () -> assertEquals(chore.getDeadline(), LocalDate.now().plusDays(1)),
+                () -> assertEquals(chore.getIsCompleted(), Boolean.FALSE)
         );
 
     }
