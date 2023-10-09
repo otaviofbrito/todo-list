@@ -338,7 +338,20 @@ public class ChoreServiceTest {
                 "Chore #02", chore.getDeadline().plusDays(1)));
     }
 
+    @Test
+    @DisplayName("#editChore > Chore exist > valid description and deadline > return edited chore")
+    void editChore(){
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        Chore chore = service.getChores().get(0);
+        Chore response = service.editChore(chore, "Chore edited", LocalDate.now().plusDays(1));
+        assertAll(
+                ()-> assertEquals(chore.getDescription(), response.getDescription()),
+                () -> assertEquals(chore.getDeadline(), response.getDeadline()),
+                () -> assertEquals(chore.getIsCompleted(), response.getIsCompleted())
+        );
 
+    }
 
 
 }
