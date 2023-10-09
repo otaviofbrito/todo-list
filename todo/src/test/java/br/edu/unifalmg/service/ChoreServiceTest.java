@@ -8,7 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -243,5 +246,37 @@ public class ChoreServiceTest {
                 () -> assertEquals(Boolean.FALSE, response.get(0).getIsCompleted())
         );
     }
+
+
+    @Test
+    @DisplayName("#printChores > When the list is empty > Throw an exception")
+    void printChoresWhenEmptyList(){
+        ChoreService service = new ChoreService();
+        assertThrows(EmptyChoreListException.class, () -> service.printChores());
+    }
+
+    @Test
+    @DisplayName("#printChores > When the list is not empty > print chores")
+    void printChoresWhenNotEmptyList(){
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.of(2023, Month.OCTOBER, 9)));
+        service.getChores().add(new Chore("Chore #02", Boolean.TRUE, LocalDate.of(2023, Month.OCTOBER, 8)));
+
+        PrintStream oldOut = System.out;
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        service.printChores();
+
+        System.setOut(oldOut);
+
+        String expectedOutput = """
+                Description: "Chore #01" Deadline: 10/9/2023 Status: Not completed
+                Description: "Chore #02" Deadline: 10/8/2023 Status: Completed
+                """;
+        assertEquals(expectedOutput, outputStream.toString());
+    }
+
+
 
 }
