@@ -312,6 +312,21 @@ public class ChoreServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("#editChore > Chore exist > When the deadline is invalid > throw an exception")
+    void editChoreInvalidDeadLineThrowsException(){
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        Chore chore = service.getChores().get(0);
+        assertAll(
+                () ->  assertThrows(InvalidDeadlineException.class,
+                        () -> service.editChore(chore, "Desc", null)),
+                () ->  assertThrows(InvalidDeadlineException.class,
+                        () -> service.editChore(chore, "Desc",
+                                chore.getDeadline().minusDays(1)))
+        );
+    }
+
 
 
 }
