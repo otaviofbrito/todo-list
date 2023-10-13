@@ -1,6 +1,5 @@
 package br.edu.unifalmg.service;
 
-import br.edu.unifalmg.DAO.ChoresDAO;
 import br.edu.unifalmg.DAO.JsonChoreDAO;
 import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.enumerator.ChoreFilter;
