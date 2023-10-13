@@ -1,5 +1,7 @@
 package br.edu.unifalmg.service;
 
+import br.edu.unifalmg.DAO.ChoresDAO;
+import br.edu.unifalmg.DAO.JsonChoreDAO;
 import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.enumerator.ChoreFilter;
 import br.edu.unifalmg.exception.*;
@@ -187,6 +189,13 @@ public class ChoreService {
 
     }
 
+    public void readChoresFromJson() {
+
+    }
+
     private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();
 
+
+
 }
+

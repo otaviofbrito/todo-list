@@ -3,6 +3,7 @@ package br.edu.unifalmg.service;
 import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.enumerator.ChoreFilter;
 import br.edu.unifalmg.exception.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -353,5 +354,13 @@ public class ChoreServiceTest {
 
     }
 
+    @Test
+    @DisplayName("#readChoresFromJson > When reading from a json file > load read values")
+    void readChoresFromJsonLoadListOfChores(){
+        ChoreService service = new ChoreService();
+        assertEquals(0, service.getChores().size());
+        assertDoesNotThrow(() -> service.readChoresFromJson());
+        assertFalse(service.getChores().isEmpty());
+    }
 
 }
