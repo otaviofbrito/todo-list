@@ -402,4 +402,25 @@ public class ChoreServiceTest {
         List<Chore> loadChores = service.getChores();
         assertTrue(loadChores.isEmpty());
     }
+
+
+    @Test
+    @DisplayName("#saveChores > When the list is not empty > Save chores ")
+    void saveChoresWhenListNotEmptyReturnTrue() {
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        service.getChores().add(new Chore("Chore #02", Boolean.FALSE, LocalDate.now().plusDays(1)));
+        Mockito.when(repository.save(service.getChores())).thenReturn(Boolean.TRUE);
+        Boolean result = service.saveChores();
+        assertTrue(result);
+        
+
+    }
+
+    @Test
+    @DisplayName("#saveChores > When the list is empty > return false ")
+    void saveChoresWhenListIsEmptyReturnFalse() {
+        Mockito.when(repository.save(service.getChores())).thenReturn(Boolean.FALSE);
+        Boolean result = service.saveChores();
+        assertFalse(result);
+    }
 }

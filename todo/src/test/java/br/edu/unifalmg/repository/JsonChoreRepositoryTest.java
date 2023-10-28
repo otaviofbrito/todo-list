@@ -2,6 +2,7 @@ package br.edu.unifalmg.repository;
 
 import br.edu.unifalmg.Repository.Chores.JsonChoreRepository;
 import br.edu.unifalmg.domain.Chore;
+import br.edu.unifalmg.service.ChoreService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
@@ -17,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class JsonChoreRepositoryTest {
     }
 
     @Test
-    @DisplayName("#load > When the file is loaded > Return a chores' list")
+    @DisplayName("#load > When the file is loaded > Return a chores list")
     void loadWhenTheFileIsLoadedReturnAChoresList() throws IOException {
         Mockito.when(
                 mapper.readValue(new File("chores.json"), Chore[].class)
@@ -74,6 +76,26 @@ public class JsonChoreRepositoryTest {
                 () -> assertEquals("First Chore", chores.get(0).getDescription()),
                 () -> assertEquals(LocalDate.now().minusDays(5), chores.get(1).getDeadline())
         );
+    }
+
+    @Test
+    @DisplayName("#save > When fails to save file > Return false")
+    void saveWhenFailsToSaveFileReturnFalse() throws IOException {
+        ChoreService service = new ChoreService();
+        Mockito.doThrow(IOException.class).when(mapper).writeValue(new File("chores.json"), service.getChores());
+        boolean response =  repository.save(service.getChores());
+        Assertions.assertFalse(response);
+    }
+
+    @Test
+    @DisplayName("#save > When able to save file > Return true")
+    void saveWhenAbleToSaveReturnTrue() throws IOException {
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        service.getChores().add(new Chore("Chore #02", Boolean.FALSE, LocalDate.now().plusDays(1)));
+        Mockito.doNothing().when(mapper).writeValue(new File("chores.json"), service.getChores());
+        boolean response =  repository.save(service.getChores());
+        Assertions.assertTrue(response);
     }
 
 
