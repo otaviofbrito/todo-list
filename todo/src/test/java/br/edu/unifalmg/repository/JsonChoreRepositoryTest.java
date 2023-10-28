@@ -79,8 +79,8 @@ public class JsonChoreRepositoryTest {
     }
 
     @Test
-    @DisplayName("#save > When the chore list is empty > Return false")
-    void saveWhenTheListIsEmptyReturnFalse() throws IOException {
+    @DisplayName("#save > When fails to save file > Return false")
+    void saveWhenFailsToSaveFileReturnFalse() throws IOException {
         ChoreService service = new ChoreService();
         Mockito.doThrow(IOException.class).when(mapper).writeValue(new File("chores.json"), service.getChores());
         boolean response =  repository.save(service.getChores());
@@ -89,7 +89,7 @@ public class JsonChoreRepositoryTest {
 
     @Test
     @DisplayName("#save > When able to save file > Return true")
-    void saveWhenTheListIsNotEmptyReturnTrue() throws IOException {
+    void saveWhenAbleToSaveReturnTrue() throws IOException {
         ChoreService service = new ChoreService();
         service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
         service.getChores().add(new Chore("Chore #02", Boolean.FALSE, LocalDate.now().plusDays(1)));
