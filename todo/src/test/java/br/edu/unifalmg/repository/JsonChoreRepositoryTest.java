@@ -2,6 +2,7 @@ package br.edu.unifalmg.repository;
 
 import br.edu.unifalmg.Repository.Chores.JsonChoreRepository;
 import br.edu.unifalmg.domain.Chore;
+import br.edu.unifalmg.service.ChoreService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
@@ -17,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class JsonChoreRepositoryTest {
     }
 
     @Test
-    @DisplayName("#load > When the file is loaded > Return a chores' list")
+    @DisplayName("#load > When the file is loaded > Return a chores list")
     void loadWhenTheFileIsLoadedReturnAChoresList() throws IOException {
         Mockito.when(
                 mapper.readValue(new File("chores.json"), Chore[].class)
@@ -75,6 +77,16 @@ public class JsonChoreRepositoryTest {
                 () -> assertEquals(LocalDate.now().minusDays(5), chores.get(1).getDeadline())
         );
     }
+
+    @Test
+    @DisplayName("#save > When the chore list is empty > Return false")
+    void saveWhenTheListIsEmptyReturnFalse() throws IOException {
+        ChoreService service = new ChoreService();
+        Mockito.doThrow(IOException.class).when(mapper).writeValue(new File("chores.json"), service.getChores());
+        boolean response =  repository.save(service.getChores());
+        Assertions.assertFalse(response);
+    }
+
 
 
 
