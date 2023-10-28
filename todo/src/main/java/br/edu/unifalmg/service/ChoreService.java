@@ -1,7 +1,7 @@
 package br.edu.unifalmg.service;
 
-import br.edu.unifalmg.DAO.Chores.ChoresDAO;
-import br.edu.unifalmg.DAO.Chores.JsonChoreDAO;
+import br.edu.unifalmg.Repository.Chores.ChoresRepository;
+import br.edu.unifalmg.Repository.Chores.JsonChoreRepository;
 import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.enumerator.ChoreFilter;
 import br.edu.unifalmg.exception.*;
@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
 
 public class ChoreService {
 
+    private ChoresRepository repository;
     private List<Chore> chores;
 
-    public ChoreService() {
+    public ChoreService(ChoresRepository repository) {
         chores = new ArrayList<>();
+        this.repository = repository;
     }
 
     /**
@@ -189,11 +191,8 @@ public class ChoreService {
 
     }
 
-    public void readChoresFromJson() {
-        ChoresDAO choresDao = new JsonChoreDAO();
-        List<Chore> choreList = choresDao.readChores();
-
-        choreList.stream().forEach(chore -> {this.chores.add(chore);});
+    public void loadChores() {
+        this.chores = repository.load();
     }
 
     private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();
