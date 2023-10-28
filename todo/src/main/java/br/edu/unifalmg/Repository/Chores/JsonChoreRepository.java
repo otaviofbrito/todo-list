@@ -9,27 +9,43 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class JsonChoreRepository implements ChoresRepository {
 
-    ObjectMapper objectMapper;
+    private ObjectMapper mapper;
 
-    public JsonChoreRepository(){
-        objectMapper = new ObjectMapper().findAndRegisterModules();
+    public JsonChoreRepository() {
+        mapper = new ObjectMapper().findAndRegisterModules();
     }
 
     @Override
-    public List<Chore> load(){
+    public List<Chore> load() {
         try {
-            return objectMapper.readValue(new File("chores.json"),
-                    new TypeReference<List<Chore>>(){});
-        } catch (MismatchedInputException exception) {
+            return new ArrayList<>(
+                    Arrays.asList(
+                            mapper.readValue(new File("chores.json"), Chore[].class)
+                    )
+            );
+
+
+        } catch(MismatchedInputException exception) {
             System.out.println("Unable to convert the content of the file into Chores!");
-        } catch (IOException exception){
+        } catch(IOException exception) {
             System.out.println("ERROR: Unable to open file.");
         }
-
         return new ArrayList<>();
+    }
+
+    @Override
+    public boolean save(List<Chore> chores) {
+        try {
+            mapper.writeValue(new File("chores.json"), chores);
+            return true;
+        } catch (IOException exception) {
+            System.out.println("ERROR: Unable to write the chores on the file.");
+        }
+        return false;
     }
 }

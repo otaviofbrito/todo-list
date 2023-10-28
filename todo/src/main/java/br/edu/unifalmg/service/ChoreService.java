@@ -24,6 +24,10 @@ public class ChoreService {
         this.repository = repository;
     }
 
+    public ChoreService(){
+        chores = new ArrayList<>();
+    }
+
     /**
      * Method to add a new chore
      *
