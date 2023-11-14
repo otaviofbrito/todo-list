@@ -203,6 +203,9 @@ public class ChoreService {
     }
 
     public Boolean updateChore(Chore chore){
+        if(Objects.isNull(chore)){
+            return Boolean.FALSE;
+        }
         return repository.update(chore);
     }
 
