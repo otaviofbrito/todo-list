@@ -423,4 +423,14 @@ public class ChoreServiceTest {
         Boolean result = service.saveChores();
         assertFalse(result);
     }
+
+
+    @Test
+    @DisplayName("#updateChore > When the chore exists > update chore > return true")
+    void updateChoreWhenChoreExistsUpdateChore(){
+        service.getChores().add(new Chore("Chore #01", Boolean.FALSE, LocalDate.now()));
+        Mockito.when(service.updateChore(service.getChores().get(0))).thenReturn(Boolean.TRUE);
+        Boolean result = service.updateChore(service.getChores().get(0));
+        assertTrue(result);
+    }
 }
