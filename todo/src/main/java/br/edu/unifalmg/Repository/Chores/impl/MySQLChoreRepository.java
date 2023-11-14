@@ -41,8 +41,6 @@ public class MySQLChoreRepository implements ChoresRepository {
 
             List<Chore> chores = new ArrayList<>();
             while(resultSet.next()) {
-                // Poderíamos ter criado a Chore usando o construtor completo
-                // OU poderíamos ter usado o construtor padrão + ter dado sets
                 Chore chore = Chore.builder()
                         .description(resultSet.getString("description"))
                         .isCompleted(resultSet.getBoolean("isCompleted"))
@@ -52,7 +50,7 @@ public class MySQLChoreRepository implements ChoresRepository {
             }
             return chores;
         } catch (SQLException exception) {
-            System.out.println("Error when connecting to database.");
+            System.out.println("Error when consulting the database.");
         } finally {
             closeConnections();
         }
@@ -93,7 +91,7 @@ public class MySQLChoreRepository implements ChoresRepository {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/db?"
+                    .getConnection("jdbc:mysql://localhost:3306/tododb?"
                             + "user=root&password=123456");
             return Boolean.TRUE;
         } catch (ClassNotFoundException | SQLException exception) {
