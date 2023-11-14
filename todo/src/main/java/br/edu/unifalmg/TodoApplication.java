@@ -1,7 +1,7 @@
 package br.edu.unifalmg;
 
 import br.edu.unifalmg.Repository.Chores.ChoresRepository;
-import br.edu.unifalmg.Repository.Chores.JsonChoreRepository;
+import br.edu.unifalmg.Repository.Chores.impl.JsonChoreRepository;
 import br.edu.unifalmg.service.ChoreService;
 
 import java.time.LocalDate;

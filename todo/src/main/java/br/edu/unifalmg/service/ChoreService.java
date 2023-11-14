@@ -1,7 +1,6 @@
 package br.edu.unifalmg.service;
 
 import br.edu.unifalmg.Repository.Chores.ChoresRepository;
-import br.edu.unifalmg.Repository.Chores.JsonChoreRepository;
 import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.enumerator.ChoreFilter;
 import br.edu.unifalmg.exception.*;
@@ -200,7 +199,7 @@ public class ChoreService {
     }
 
     public Boolean saveChores() {
-        return repository.save(this.chores);
+        return repository.saveAll(this.chores);
     }
 
     private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();

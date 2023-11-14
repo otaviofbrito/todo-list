@@ -1,6 +1,7 @@
 
-package br.edu.unifalmg.Repository.Chores;
+package br.edu.unifalmg.Repository.Chores.impl;
 
+import br.edu.unifalmg.Repository.Chores.ChoresRepository;
 import br.edu.unifalmg.domain.Chore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +40,7 @@ public class JsonChoreRepository implements ChoresRepository {
     }
 
     @Override
-    public boolean save(List<Chore> chores) {
+    public boolean saveAll(List<Chore> chores) {
         try {
             mapper.writeValue(new File("chores.json"), chores);
             return true;
@@ -47,5 +48,10 @@ public class JsonChoreRepository implements ChoresRepository {
             System.out.println("ERROR: Unable to write the chores on the file.");
         }
         return false;
+    }
+
+    @Override
+    public boolean save(Chore chore){
+        throw new RuntimeException("Operation not supported yet");
     }
 }
