@@ -54,4 +54,9 @@ public class JsonChoreRepository implements ChoresRepository {
     public boolean save(Chore chore){
         throw new RuntimeException("Operation not supported yet");
     }
+
+    @Override
+    public boolean update(Chore chore){
+        throw new RuntimeException("Operation not supported yet");
+    }
 }

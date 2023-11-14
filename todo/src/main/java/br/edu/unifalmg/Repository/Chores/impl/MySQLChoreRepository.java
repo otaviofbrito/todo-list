@@ -42,6 +42,7 @@ public class MySQLChoreRepository implements ChoresRepository {
             List<Chore> chores = new ArrayList<>();
             while(resultSet.next()) {
                 Chore chore = Chore.builder()
+                        .id(resultSet.getLong("choreID"))
                         .description(resultSet.getString("description"))
                         .isCompleted(resultSet.getBoolean("isCompleted"))
                         .deadline(resultSet.getDate("deadline").toLocalDate())
@@ -84,6 +85,11 @@ public class MySQLChoreRepository implements ChoresRepository {
             closeConnections();
         }
         return false;
+    }
+
+    @Override
+    public boolean update(Chore chore){
+        throw new RuntimeException("Operation not supported yet");
     }
 
 

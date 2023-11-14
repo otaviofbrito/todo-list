@@ -10,4 +10,6 @@ public interface ChoresRepository {
     boolean saveAll(List<Chore> chores);
 
     boolean save(Chore chore);
+
+    boolean update(Chore chore);
 }
