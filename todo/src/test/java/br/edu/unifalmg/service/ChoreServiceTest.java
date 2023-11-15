@@ -213,11 +213,11 @@ public class ChoreServiceTest {
         service.getChores().add(new Chore("Chore #02", Boolean.TRUE, LocalDate.now()));
         List<Chore> response = service.filterChores(ChoreFilter.ALL);
         assertAll(
-            () -> assertEquals(2, response.size()),
-            () -> assertEquals("Chore #01", response.get(0).getDescription()),
-            () -> assertEquals(Boolean.FALSE, response.get(0).getIsCompleted()),
-            () -> assertEquals("Chore #02", response.get(1).getDescription()),
-            () -> assertEquals(Boolean.TRUE, response.get(1).getIsCompleted())
+                () -> assertEquals(2, response.size()),
+                () -> assertEquals("Chore #01", response.get(0).getDescription()),
+                () -> assertEquals(Boolean.FALSE, response.get(0).getIsCompleted()),
+                () -> assertEquals("Chore #02", response.get(1).getDescription()),
+                () -> assertEquals(Boolean.TRUE, response.get(1).getIsCompleted())
         );
     }
 
@@ -411,7 +411,7 @@ public class ChoreServiceTest {
         Mockito.when(repository.saveAll(service.getChores())).thenReturn(Boolean.TRUE);
         Boolean result = service.saveChores();
         assertTrue(result);
-        
+
 
     }
 
