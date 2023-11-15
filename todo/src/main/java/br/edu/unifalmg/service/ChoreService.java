@@ -77,7 +77,7 @@ public class ChoreService {
 //         chore.setDeadline(deadline);
 //         chore.setIsCompleted(Boolean.FALSE);
 
-
+        repository.save(chore);
         chores.add(chore);
         return chore;
     }
